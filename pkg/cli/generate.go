@@ -18,7 +18,7 @@ var (
 		generator.TagMultiPeer,
 		generator.TagUpstreamE2E,
 		generator.TagExample,
-		generator.TagEndPort,
+		//generator.TagEndPort,
 		generator.TagNamespacesByDefaultLabel}
 )
 
