@@ -1,0 +1,39 @@
+name: Kind Azure NPM Cyclonus
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - enable-endport
+  pull_request:
+    paths:
+      - 'hack/**'
+      - '.github/workflows/**'
+  schedule:
+    # run once a day at midnight
+    - cron: '0 0 * * *'
+
+jobs:
+  test-kind-azure-npm:
+    name: Run Cyclonus on KinD/Azure-NPM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Run Cyclonus
+        working-directory: hack/kind
+        run: CNI=azure-npm RUN_FROM_SOURCE=false CYCLONUS_IMAGE=acnpublic.azurecr.io/azure-npm:cyclonous-endport ./run-cyclonus.sh
+
+      - name: Fetch logs
+        if: always()
+        run: |
+          kubectl logs -n kube-system -l k8s-app=azure-npm --tail -1 --prefix > npm-logs.txt
+          kubectl logs -n netpol job.batch/cyclonus | tee cyclonus-test.txt
+
+      - name: 'Upload Logs'
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: logs
+          path: |
+            ./npm-logs.txt
+            ./cyclonus-test.txt
