@@ -3,7 +3,11 @@ on:
   workflow_dispatch:
   push:
     branches:
-      -  enable-endport
+      - enable-endport
+  pull_request:
+    paths:
+      - 'hack/**'
+      - '.github/workflows/**'
   schedule:
     # run once a day at midnight
     - cron: '0 0 * * *'
