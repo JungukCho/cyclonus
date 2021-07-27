@@ -9,6 +9,8 @@ CLUSTER_NAME="netpol-$CNI"
 RUN_FROM_SOURCE=${RUN_FROM_SOURCE:-true}
 FROM_SOURCE_ARGS=${FROM_SOURCE_ARGS:-"generate --include conflict --job-timeout-seconds 2"}
 INSTALL_KIND=${INSTALL_KIND:-true}
+CYCLONUS_IMAGE=${CYCLONUS_IMAGE:-"mfenwick100/cyclonus:latest"}
+
 
 # see https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md
 #   github includes a kind version, but it may not be the version we want
@@ -43,8 +45,8 @@ if [ "$RUN_FROM_SOURCE" == true ]; then
   # don't quote this -- we want word splitting here!
   go run ../../cmd/cyclonus/main.go $FROM_SOURCE_ARGS
 else
-  docker pull mfenwick100/cyclonus:latest
-  kind load docker-image mfenwick100/cyclonus:latest --name "$CLUSTER_NAME"
+  docker pull $CYCLONUS_IMAGE
+  kind load docker-image $CYCLONUS_IMAGE --name "$CLUSTER_NAME"
 
   JOB_NAME=job.batch/cyclonus
   JOB_NS=netpol
