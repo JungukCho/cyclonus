@@ -28,8 +28,8 @@ jobs:
       - name: Setup Kind
         uses: engineerd/setup-kind@v0.5.0
         with:
-          version: "v0.9.0"
-          config: ./test/kind/kind.yaml
+          version: "v0.11.1"
+          config: ./hack/kind/azure-npm/kind.yaml
           name: npm-kind
       
       - name: Install Azure NPM
