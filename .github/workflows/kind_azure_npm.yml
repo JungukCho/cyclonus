@@ -18,7 +18,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
+      - name: Test
+    	run: cat ./hack/kind/azure-npm/azure-npm.yaml
+
       - name: Run Cyclonus
         working-directory: hack/kind
         run: CNI=azure-npm RUN_FROM_SOURCE=false CYCLONUS_IMAGE=acnpublic.azurecr.io/azure-npm:cyclonous-endport ./run-cyclonus.sh
