@@ -18,13 +18,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-
+      
       - name: Run Cyclonus
         working-directory: hack/kind
-        run: | 
-          cat ./azure-npm/azure-npm.yaml
-          CNI=azure-npm RUN_FROM_SOURCE=false CYCLONUS_IMAGE=acnpublic.azurecr.io/azure-npm:cyclonous-endport ./run-cyclonus.sh
+        run: CNI=azure-npm RUN_FROM_SOURCE=false CYCLONUS_IMAGE=acnpublic.azurecr.io/azure-npm:cyclonous-endport ./run-cyclonus.sh
 
       - name: Fetch logs
         if: always()
