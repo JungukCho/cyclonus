@@ -26,6 +26,8 @@ AZURE_NPM_IMAGE="acnpublic.azurecr.io/azure-npm:endport"
 AZURE_NPM_NS="kube-system"
 AZURE_NPM_LABEL="k8s-app=azure-npm"
 
+
+cat $AZURE_NPM_YAML
 sed -i 's/mcr.microsoft.com\/containernetworking\/azure-npm:v1.4.1/acnpublic.azurecr.io\/azure-npm:endport/' $AZURE_NPM_YAML
 docker pull $AZURE_NPM_IMAGE
 kind load docker-image $AZURE_NPM_IMAGE --name $CLUSTER
