@@ -19,13 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Test
-        working-directory: hack/kind/azure-npm
-    	run: cat azure-npm.yaml
 
       - name: Run Cyclonus
         working-directory: hack/kind
-        run: CNI=azure-npm RUN_FROM_SOURCE=false CYCLONUS_IMAGE=acnpublic.azurecr.io/azure-npm:cyclonous-endport ./run-cyclonus.sh
+        run: | 
+	  cat ./azure-npm/azure-npm.yaml
+	  CNI=azure-npm RUN_FROM_SOURCE=false CYCLONUS_IMAGE=acnpublic.azurecr.io/azure-npm:cyclonous-endport ./run-cyclonus.sh
 
       - name: Fetch logs
         if: always()
