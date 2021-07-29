@@ -20,7 +20,8 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Test
-    	run: cat ./hack/kind/azure-npm/azure-npm.yaml
+        working-directory: hack/kind/azure-npm
+    	run: cat azure-npm.yaml
 
       - name: Run Cyclonus
         working-directory: hack/kind
