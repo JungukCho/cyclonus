@@ -17,8 +17,8 @@ spec:
             - --pod-creation-timeout-seconds=30
             - --job-timeout-seconds=2
             - --server-protocol=TCP,UDP
-              #- --verbosity=debug
-              #- --include=direction, end-port, ingress, egress, numbered-port, port, protocol, tcp, udp
+            - --verbosity=debug
+            #- --include=direction, end-port, ingress, egress, numbered-port, port, protocol, tcp, udp
           name: cyclonus
           imagePullPolicy: Never
           image: acnpublic.azurecr.io/azure-npm:cyclonous-endport
