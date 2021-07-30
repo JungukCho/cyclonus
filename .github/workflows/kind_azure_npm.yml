@@ -27,7 +27,7 @@ jobs:
         if: always()
         run: |
           kubectl logs -n kube-system -l k8s-app=azure-npm --tail -1 --prefix > npm-logs.txt
-          kubectl logs -n netpol job.batch/cyclonus | tee cyclonus-test.txt
+          kubectl logs -n netpol job.batch/cyclonus --tail -1 | tee cyclonus-test.txt
 
       - name: 'Upload Logs'
         uses: actions/upload-artifact@v2
