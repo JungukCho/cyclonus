@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: base
+  namespace: x
+spec:
+  podSelector:
+    matchLabels:
+      pod: a
+  egress:
+    - ports:
+        - port: 80
+          protocol: TCP
+      to:
+        - namespaceSelector:
+            matchLabels:
+              ns: "y"
+          podSelector:
+            matchExpressions:
+              - key: pod
+                operator: In
+                values:
+                  - b
+                  - c
+    - ports:
+        - port: 443
+          protocol: TCP
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              ns: x
+          podSelector:
+            matchLabels:
+              pod: c
+      ports:
+        - port: 80
+          protocol: TCP
+  policyTypes:
+    - Ingress
+    - Egress
