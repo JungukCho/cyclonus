@@ -4,21 +4,28 @@
 ./helper.sh deploy
 ```
 
-2. Access to npm pod and then run below commands
+2. Access to npm pod and then run below commands 
+
 ```shell
 pod=$(kubectl get pods -l k8s-app=azure-npm -n kube-system -o jsonpath={.items..metadata.name} | awk '{print $1}'); kubectl exec $pod -n kube-system -it bash
 
-# inside the docker    
 
+# in this example,
+# x/a ip address: `10.240.0.11`
+# x/c ip address: `10.240.0.9`
+# y/a ip address: `10.240.0.26`
+# y/b ip address: `10.240.0.29`
+
+# inside the npm docker container    
 azure-npm debug gettuples -s y/a -d x/a
-&{RuleType:NOT ALLOWED Direction:INGRESS SrcIP:ANY SrcPort:ANY DstIP:10.240.0.21 DstPort:ANY Protocol:ANY}
+&{RuleType:NOT ALLOWED Direction:INGRESS SrcIP:ANY SrcPort:ANY DstIP:10.240.0.11 DstPort:ANY Protocol:ANY}
 
 azure-npm debug gettuples -s x/c -d x/a
-&{RuleType:NOT ALLOWED Direction:INGRESS SrcIP:ANY SrcPort:ANY DstIP:10.240.0.21 DstPort:ANY Protocol:ANY}
-&{RuleType:ALLOWED Direction:INGRESS SrcIP:10.240.0.7 SrcPort:ANY DstIP:10.240.0.21 DstPort:80 Protocol:tcp}
+&{RuleType:ALLOWED Direction:INGRESS SrcIP:10.240.0.9 SrcPort:ANY DstIP:10.240.0.11 DstPort:80 Protocol:tcp}
+&{RuleType:NOT ALLOWED Direction:INGRESS SrcIP:ANY SrcPort:ANY DstIP:10.240.0.11 DstPort:ANY Protocol:ANY}
 
 azure-npm debug gettuples -s x/a -d y/b
-&{RuleType:ALLOWED Direction:EGRESS SrcIP:10.240.0.21 SrcPort:ANY DstIP:ANY DstPort:443 Protocol:tcp}
-&{RuleType:ALLOWED Direction:EGRESS SrcIP:10.240.0.21 SrcPort:ANY DstIP:10.240.0.28 DstPort:80 Protocol:tcp}
-&{RuleType:NOT ALLOWED Direction:EGRESS SrcIP:10.240.0.21 SrcPort:ANY DstIP:ANY DstPort:ANY Protocol:ANY}
+&{RuleType:ALLOWED Direction:EGRESS SrcIP:10.240.0.11 SrcPort:ANY DstIP:ANY DstPort:443 Protocol:tcp}
+&{RuleType:ALLOWED Direction:EGRESS SrcIP:10.240.0.11 SrcPort:ANY DstIP:10.240.0.29 DstPort:80 Protocol:tcp}
+&{RuleType:NOT ALLOWED Direction:EGRESS SrcIP:10.240.0.11 SrcPort:ANY DstIP:ANY DstPort:ANY Protocol:ANY}
 ```
